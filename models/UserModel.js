@@ -1,6 +1,8 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const userSchema = mongoose.Schema({
   email: {
@@ -46,6 +48,15 @@ userSchema.methods.comparePassword = async function (password) {
   } catch (err) {
     return err;
   }
+};
+
+//Generate JSON Web Token
+userSchema.methods.generateJWT = function () {
+  const jwtToken = jwt.sign(
+    { id: this._id, email: this.email },
+    process.env.JWT_SECRET_KEY
+  );
+  return jwtToken;
 };
 
 function userValidation(user) {

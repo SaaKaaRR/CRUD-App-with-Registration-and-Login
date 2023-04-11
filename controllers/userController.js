@@ -30,7 +30,12 @@ const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    res.status(200).json({ email: user.email, message: "Login Successful" });
+    const token = user.generateJWT();
+
+    res
+      .status(200)
+      .header("x-auth-token", token)
+      .json({ email: user.email, message: "Login Successful" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
