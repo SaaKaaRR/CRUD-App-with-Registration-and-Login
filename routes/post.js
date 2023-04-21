@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../middlewares/auth");
 const {
   getPost,
   createPost,
@@ -8,7 +9,7 @@ const {
 } = require("../controllers/posts");
 
 router.get("/", getPost);
-router.post("/", createPost);
-router.put("/", updatePost);
-router.delete("/", deletePost);
+router.post("/", auth, createPost);
+router.put("/", auth, updatePost);
+router.delete("/", auth, deletePost);
 module.exports = router;
