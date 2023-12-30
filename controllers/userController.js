@@ -5,6 +5,7 @@ const createUser = async (req, res) => {
   try {
     const { error } = userValidation(req.body);
     if (error) {
+      console.log("Error here");
       return res.status(400).json({ error: error.details[0].message });
     }
     const user = new User(req.body);
